@@ -88,14 +88,10 @@ function colorFondo(types){
 function mayusInicial(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-
 //CUANDO CARGA EL HTML SE EJECUTA ESTO
 document.addEventListener("DOMContentLoaded",function(){
     dibujarPokemones();
 })
-
-
 //BUSCADOR DE POKEMONES
 const buscarPokemon = async event =>{
     event.preventDefault();
@@ -110,7 +106,6 @@ const buscarPokemon = async event =>{
         informacionPokemon(pokemon);
     }
 }
-
 //LLENA LA CARD PRINCIPAL CON LA INFO DEL POKEMON BUSCADO
 function informacionPokemon (data){
     const {stats, types, sprites} = data;
@@ -131,7 +126,6 @@ function informacionPokemon (data){
     colorTipos(types);
     colorFondo(types);
 }
-
 //CARGA EL LISTADO DE POKEMONS DEL 1 AL 151
 const dibujarPokemones = async () =>{
     for( let i = 1; i<= 151; i++){
@@ -146,13 +140,14 @@ const obtenerPokemones = async(id) =>{
 }
 //CREA IMAGENES CON LOS POKEMONES
 function  crearPokemon(pokemon, id){
-    const pokemonEl = document.createElement('div');
     const {stats, types, sprites} = pokemon;
+
+    const pokemonEl = document.createElement('div');
 	pokemonEl.classList.add('pokemon');
 
     let tipos = "";
     types.forEach(type => {
-        tipos += `<div class="type" style = "color: ${catalogoColores[type.type.name]}"><span>${catalogoTipos[type.type.name]}</span></div>`
+        tipos += `<div class="type" style = "color: ${catalogoColores[type.type.name]}">${catalogoTipos[type.type.name]}</div>`
     });
 
     const colorPrincipal = catalogoColores[types[0].type.name];
@@ -161,15 +156,13 @@ function  crearPokemon(pokemon, id){
 
 	const name =mayusInicial(pokemon.name);
         const pokeInnerHTML = `
-        <div pokeCard class="col-4 col-xl-2 col-md-4 col-lg-4 col-sm-4 card border-dark py-2 px-5 ">
-            <div class="name"> Nombre: ${name}</div>
-            <span class="number"># ${pokemon.id.toString()}</span>
-            <img src="${sprites.front_default}" style="background: ${styleBackground}; background-size : 5px 5px "  alt="${name} "/>
+        <div class="col-4 col-xl-2 col-md-4 col-lg-4 col-sm-4 card border-dark">
+            <div nombre> Nombre: ${name}</div>
+            <div id># ${pokemon.id.toString()}</div>
+                <img src="${sprites.front_default}" style="background: ${styleBackground}; background-size : 5px 5px "  alt="${name} "/>
             ${tipos}
         </div>
     `;
     pokemonEl.innerHTML = pokeInnerHTML;
     pokemonContainer.appendChild(pokemonEl);
-
-
 }
