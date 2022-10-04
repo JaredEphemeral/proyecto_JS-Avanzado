@@ -1,15 +1,23 @@
 {
-  "name": "proyectofinal_js-avanzado",
+  "name": "proyecto_js-avanzado",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Trabajo final de la clase de JS avanzado",
+  "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JaredEphemeral/proyecto_JS-Avanzado.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JaredEphemeral/proyecto_JS-Avanzado/issues"
+  },
+  "homepage": "https://github.com/JaredEphemeral/proyecto_JS-Avanzado#readme",
   "dependencies": {
-    "node-fetch": "^3.2.10"
+    "request": "^2.88.2"
   }
 }
