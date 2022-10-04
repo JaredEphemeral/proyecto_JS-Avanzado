@@ -102,8 +102,14 @@ const buscarPokemon = async event =>{
     }
     else{
         const rest = await fetch(URI + `/${value}`)
-        const pokemon = await rest.json();
-        informacionPokemon(pokemon);
+        if(rest.status === 200){
+            const pokemon = await rest.json();
+            informacionPokemon(pokemon);
+        }
+        else{
+            pokeNombre.textContent = `Nombre: 404-Not found`;
+            valoresDefault();
+        }
     }
 }
 //LLENA LA CARD PRINCIPAL CON LA INFO DEL POKEMON BUSCADO
@@ -135,15 +141,14 @@ const dibujarPokemones = async () =>{
 //OBTIENE LA INFORMACIÓN DE LA LISTA DE POKEMON
 const obtenerPokemones = async(id) =>{
     const resp = await fetch(URI + `/${id}`);
-    const pokemon = await resp.json();
-    crearPokemon(pokemon, id);
+    if(resp.status === 200){
+        const pokemon = await resp.json();
+        crearPokemon(pokemon);
+    }
 }
 //CREA IMAGENES CON LOS POKEMONES
-function  crearPokemon(pokemon, id){
+function  crearPokemon(pokemon){
     const {stats, types, sprites} = pokemon;
-
-    const pokemonEl = document.createElement('div');
-	pokemonEl.classList.add('pokemon');
 
     let tipos = "";
     types.forEach(type => {
@@ -154,8 +159,9 @@ function  crearPokemon(pokemon, id){
     const colorSecundario = types[1] ? catalogoColores[types[1].type.name] : catalogoColores.default;
     let styleBackground = `radial-gradient(${colorSecundario} 33%, ${colorPrincipal} 33%)`
 
-	const name =mayusInicial(pokemon.name);
-        const pokeInnerHTML = `
+	const name = mayusInicial(pokemon.name);
+        let pokeInnerHTML = pokemonContainer.innerHTML;
+        pokeInnerHTML += `
         <div class="col-4 col-xl-2 col-md-4 col-lg-4 col-sm-4 card border-dark">
             <div nombre> Nombre: ${name}</div>
             <div id># ${pokemon.id.toString()}</div>
@@ -163,6 +169,6 @@ function  crearPokemon(pokemon, id){
             ${tipos}
         </div>
     `;
-    pokemonEl.innerHTML = pokeInnerHTML;
-    pokemonContainer.appendChild(pokemonEl);
+
+    pokemonContainer.innerHTML = pokeInnerHTML;
 }

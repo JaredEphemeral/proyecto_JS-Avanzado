@@ -1,8 +1,8 @@
 .bodybg{
-    background-color: cyan;
     background-repeat: no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    background: radial-gradient( rgb(230, 215, 8), rgb(192, 55, 55)) ;
 }
