@@ -112,6 +112,22 @@ const buscarPokemon = async event =>{
         }
     }
 }
+
+//CARGA EL POKEMON SELECCIONADO
+async function obtenerPokemonSeleccionado(id){
+    const rest = await fetch(URI + `/${id}`)
+    if(rest.status === 200){
+        const pokemon = await rest.json();
+        informacionPokemon(pokemon);
+    }
+    else{
+        pokeNombre.textContent = `Nombre: 404-Not found`;
+        valoresDefault();
+    }
+
+    window.scrollTo(0,0);
+}
+
 //LLENA LA CARD PRINCIPAL CON LA INFO DEL POKEMON BUSCADO
 function informacionPokemon (data){
     const {stats, types, sprites} = data;
@@ -143,11 +159,11 @@ const obtenerPokemones = async(id) =>{
     const resp = await fetch(URI + `/${id}`);
     if(resp.status === 200){
         const pokemon = await resp.json();
-        crearPokemon(pokemon);
+        crearPokemon(pokemon,id);
     }
 }
 //CREA IMAGENES CON LOS POKEMONES
-function  crearPokemon(pokemon){
+function  crearPokemon(pokemon, id){
     const {stats, types, sprites} = pokemon;
 
     let tipos = "";
@@ -158,17 +174,23 @@ function  crearPokemon(pokemon){
     const colorPrincipal = catalogoColores[types[0].type.name];
     const colorSecundario = types[1] ? catalogoColores[types[1].type.name] : catalogoColores.default;
     let styleBackground = `radial-gradient(${colorSecundario} 33%, ${colorPrincipal} 33%)`
-
 	const name = mayusInicial(pokemon.name);
         let pokeInnerHTML = pokemonContainer.innerHTML;
         pokeInnerHTML += `
-        <div class="col-4 col-xl-2 col-md-4 col-lg-4 col-sm-4 card border-dark">
-            <div nombre> Nombre: ${name}</div>
-            <div id># ${pokemon.id.toString()}</div>
-                <img src="${sprites.front_default}" style="background: ${styleBackground}; background-size : 5px 5px "  alt="${name} "/>
+        <div class="col-4 col-xl-2 col-md-4 col-lg-4 col-sm-4 card border-dark" id = "${id}" >
+            <div nombre > Nombre:</div>
+            <div name>${name}</div>
+            <div id>#${pokemon.id.toString()}</div>
+                <img src="${sprites.front_default}" style="background: ${styleBackground}; background-size : 5px 5px "  alt="${name} "  onClick = "clickPokemon(this)"/>
             ${tipos}
         </div>
     `;
 
     pokemonContainer.innerHTML = pokeInnerHTML;
+}
+
+
+function clickPokemon(element){
+    var parent = element.parentNode;
+    obtenerPokemonSeleccionado(parent.id);
 }
