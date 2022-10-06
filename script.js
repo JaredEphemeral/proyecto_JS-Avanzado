@@ -101,7 +101,7 @@ const buscarPokemon = async event =>{
         valoresDefault();
     }
     else{
-        const rest = await fetch(URI + id)
+        const rest = await fetch(URI + value)
         if(rest.status === 200){
             const pokemon = await rest.json();
             informacionPokemon(pokemon);
