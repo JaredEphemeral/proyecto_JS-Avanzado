@@ -19,5 +19,6 @@
   "homepage": "https://github.com/JaredEphemeral/proyecto_JS-Avanzado#readme",
   "dependencies": {
     "request": "^2.88.2"
-  }
+  },
+  "type":"module"
 }
