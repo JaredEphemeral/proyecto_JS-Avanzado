@@ -92,63 +92,6 @@ function mayusInicial(string) {
 document.addEventListener("DOMContentLoaded",function(){
     dibujarPokemones();
 })
-//BUSCADOR DE POKEMONES
-const buscarPokemon = async event =>{
-    event.preventDefault();
-    const { value } = event.target.pokeBusqueda;
-    if(value == ""){
-        pokeNombre.textContent = `Nombre: N/A`;
-        valoresDefault();
-    }
-    else{
-        
-        const rest = await fetch(URI + value.toLowerCase());
-        if(rest.status === 200){
-            const pokemon = await rest.json();
-            informacionPokemon(pokemon);
-        }
-        else{
-            pokeNombre.textContent = `Nombre: 404-Not found`;
-            valoresDefault();
-        }
-    }
-}
-
-//CARGA EL POKEMON SELECCIONADO
-async function obtenerPokemonSeleccionado(id){
-    const rest = await fetch(URI + id)
-    if(rest.status === 200){
-        const pokemon = await rest.json();
-        informacionPokemon(pokemon);
-    }
-    else{
-        pokeNombre.textContent = `Nombre: 404-Not found`;
-        valoresDefault();
-    }
-
-    window.scrollTo(0,0);
-}
-
-//LLENA LA CARD PRINCIPAL CON LA INFO DEL POKEMON BUSCADO
-function informacionPokemon (data){
-    const {stats, types, sprites} = data;
-    pokeImg.setAttribute('src', sprites.front_default)
-
-    pokeId.textContent = `# ${data.id}`;
-    pokeNombre.textContent = `Nombre: ${mayusInicial(data.name)} `;
-
-    pokeHp.textContent = `Vida: ${ stats[0].base_stat} `;
-    PokeAtk.textContent = `Atq: ${ stats[1].base_stat} `;
-    pokeDef.textContent = `Def: ${ stats[2].base_stat} `;
-    PokeSp.textContent = `Atq-Esp: ${ stats[3].base_stat} `;
-    PokeSd.textContent = `Def-Esp: ${ stats[4].base_stat} `;
-    PokeSpeed.textContent = `Velocidad: ${ stats[5].base_stat} `;
-
-    pokeTipos.innerHTML = "";
-
-    colorTipos(types);
-    colorFondo(types);
-}
 //CARGA EL LISTADO DE POKEMONS DEL 1 AL 151
 const dibujarPokemones = async () =>{
     for( let i = 1; i<= 151; i++){
@@ -186,12 +129,64 @@ function  crearPokemon(pokemon, id){
             ${tipos}
         </div>
     `;
-
     pokemonContainer.innerHTML = pokeInnerHTML;
 }
+//BUSCADOR DE POKEMONES
+const buscarPokemon = async event =>{
+    event.preventDefault();
+    const { value } = event.target.pokeBusqueda;
+    if(value == ""){
+        pokeNombre.textContent = `Nombre: N/A`;
+        valoresDefault();
+    }
+    else{
+        const rest = await fetch(URI + value.toLowerCase());
+        if(rest.status === 200){
+            const pokemon = await rest.json();
+            informacionPokemon(pokemon);
+        }
+        else{
+            pokeNombre.textContent = `Nombre: 404-Not found`;
+            valoresDefault();
+        }
+    }
+}
+//LLENA LA CARD PRINCIPAL CON LA INFO DEL POKEMON BUSCADO
+function informacionPokemon (data){
+    const {stats, types, sprites} = data;
+    pokeImg.setAttribute('src', sprites.front_default)
 
+    pokeId.textContent = `# ${data.id}`;
+    pokeNombre.textContent = `Nombre: ${mayusInicial(data.name)} `;
 
+    pokeHp.textContent = `Vida: ${ stats[0].base_stat} `;
+    PokeAtk.textContent = `Atq: ${ stats[1].base_stat} `;
+    pokeDef.textContent = `Def: ${ stats[2].base_stat} `;
+    PokeSp.textContent = `Atq-Esp: ${ stats[3].base_stat} `;
+    PokeSd.textContent = `Def-Esp: ${ stats[4].base_stat} `;
+    PokeSpeed.textContent = `Velocidad: ${ stats[5].base_stat} `;
+
+    pokeTipos.innerHTML = "";
+
+    colorTipos(types);
+    colorFondo(types);
+}
+//EVENTO DE CLICKEAR IMAGEN DE POKEMON
 function clickPokemon(element){
     var parent = element.parentNode;
     obtenerPokemonSeleccionado(parent.id);
+}
+//CARGA EL POKEMON SELECCIONADO
+async function obtenerPokemonSeleccionado(id){
+    const rest = await fetch(URI + id)
+    if(rest.status === 200){
+        const pokemon = await rest.json();
+        informacionPokemon(pokemon);
+    }
+    else{
+        pokeNombre.textContent = `Nombre: 404-Not found`;
+        valoresDefault();
+    }
+
+    window.scrollTo(0,0);
 }
