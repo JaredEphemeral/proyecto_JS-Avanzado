@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "Trabajo final de la clase de JS avanzado",
   "main": "index.php",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.html"
-  },
   "keywords": ["example",
   "heroku"],
   "author": "",
