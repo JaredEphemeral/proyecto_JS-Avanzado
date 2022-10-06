@@ -10,7 +10,7 @@ const PokeSp = document.querySelector('[pokemonSP]');
 const PokeSd = document.querySelector('[pokemonSD]');
 const PokeSpeed = document.querySelector('[pokemonSpeed]');
 
-const URI = 'https://pokeapi.co/api/v2/pokemon';
+const URI = 'https://pokeapi.co/api/v2/pokemon/';
 //CATALOGO DE COLORES
 const catalogoColores = {
     normal: '#B09398',
@@ -101,7 +101,7 @@ const buscarPokemon = async event =>{
         valoresDefault();
     }
     else{
-        const rest = await fetch(URI + `/${value}`)
+        const rest = await fetch(URI + id)
         if(rest.status === 200){
             const pokemon = await rest.json();
             informacionPokemon(pokemon);
@@ -115,7 +115,7 @@ const buscarPokemon = async event =>{
 
 //CARGA EL POKEMON SELECCIONADO
 async function obtenerPokemonSeleccionado(id){
-    const rest = await fetch(URI + `/${id}`)
+    const rest = await fetch(URI + id)
     if(rest.status === 200){
         const pokemon = await rest.json();
         informacionPokemon(pokemon);
@@ -156,7 +156,7 @@ const dibujarPokemones = async () =>{
 }
 //OBTIENE LA INFORMACIÓN DE LA LISTA DE POKEMON
 const obtenerPokemones = async(id) =>{
-    const resp = await fetch(URI + `/${id}`);
+    const resp = await fetch(URI + id);
     if(resp.status === 200){
         const pokemon = await resp.json();
         crearPokemon(pokemon,id);
